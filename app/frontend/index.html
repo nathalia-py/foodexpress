@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FoodExpress Test</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f5ef;
+      --panel: #ffffff;
+      --ink: #1f2523;
+      --muted: #6b7280;
+      --line: #dedbd2;
+      --accent: #24745b;
+      --accent-dark: #185540;
+      --danger: #b42318;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 44px);
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .status {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      min-width: 0;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+
+    button {
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--accent);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--accent-dark);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: .7;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .result {
+      min-height: 140px;
+      max-height: 320px;
+      overflow: auto;
+      margin: 0;
+      padding: 14px;
+      border-radius: 6px;
+      background: #171b1a;
+      color: #e6f3ee;
+      font: 13px/1.5 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      white-space: pre-wrap;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    @media (max-width: 760px) {
+      header,
+      .grid {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      header {
+        align-items: stretch;
+      }
+
+      .status {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>FoodExpress</h1>
+        <p>Minimal API test panel</p>
+      </div>
+      <div class="status" id="apiStatus">Checking API...</div>
+    </header>
+
+    <div class="grid">
+      <section>
+        <h2>User</h2>
+        <form data-endpoint="/users/" data-method="POST">
+          <label>Name <input name="name" value="Nathalia Test"></label>
+          <label>Email <input name="email" type="email" value="nathalia.test@example.com"></label>
+          <label>Password <input name="password" type="password" value="secret123"></label>
+          <label>Phone <input name="phone_number" value="+55 11 90000-0000"></label>
+          <button>Create user</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Restaurant</h2>
+        <form data-endpoint="/restaurants/" data-method="POST">
+          <label>Name <input name="name" value="Green Bowl"></label>
+          <label>Cuisine <input name="cuisine" value="Healthy"></label>
+          <label>Phone <input name="phone_number" value="+55 11 3333-4444"></label>
+          <label>Address <input name="address" value="Av. Paulista, 1000"></label>
+          <button>Create restaurant</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Dish</h2>
+        <form data-endpoint="/restaurants/dishes" data-method="POST">
+          <label>Name <input name="name" value="Chicken Rice Bowl"></label>
+          <label>Description <input name="description" value="Rice, grilled chicken, salad"></label>
+          <label>Price <input name="price" type="number" value="35"></label>
+          <label>Restaurant ID <input name="restaurant_id" type="number" value="1"></label>
+          <button>Create dish</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Order</h2>
+        <form data-endpoint="/orders/" data-method="POST">
+          <label>Customer <input name="customer_name" value="Nathalia Test"></label>
+          <label>Address <input name="customer_address" value="Rua das Flores, 45"></label>
+          <label>Phone <input name="customer_phone_number" value="+55 11 90000-0000"></label>
+          <label>Restaurant ID <input name="restaurant_id" type="number" value="1"></label>
+          <label>Dish ID <input name="dish_id" type="number" value="1"></label>
+          <label>Quantity <input name="quantity" type="number" value="2"></label>
+          <label>Total price <input name="total_price" type="number" value="70"></label>
+          <button>Create order</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Payment</h2>
+        <form data-endpoint="/payments/" data-method="POST">
+          <label>Order ID <input name="order_id" type="number" value="1"></label>
+          <label>User ID <input name="user_id" type="number" value="1"></label>
+          <label>Provider <input name="provider" value="manual"></label>
+          <label>Method <select name="method_type"><option>pix</option><option>card</option><option>cash</option></select></label>
+          <label>Amount <input name="amount" type="number" value="70"></label>
+          <label>Status <select name="status"><option>paid</option><option>pending</option><option>failed</option></select></label>
+          <label>Currency <input name="currency" value="BRL"></label>
+          <button>Create payment</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Delivery</h2>
+        <form data-endpoint="/deliveries/" data-method="POST">
+          <label>Order ID <input name="order_id" type="number" value="1"></label>
+          <label>Address <input name="address" value="Rua das Flores, 45"></label>
+          <button>Create delivery</button>
+        </form>
+      </section>
+
+      <section class="full">
+        <h2>Response</h2>
+        <pre class="result" id="result">Submit a form to see the backend response.</pre>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const result = document.querySelector("#result");
+    const status = document.querySelector("#apiStatus");
+
+    const numberFields = new Set([
+      "price",
+      "restaurant_id",
+      "dish_id",
+      "quantity",
+      "total_price",
+      "order_id",
+      "user_id",
+      "amount"
+    ]);
+
+    function formToPayload(form) {
+      const payload = {};
+      new FormData(form).forEach((value, key) => {
+        if (value === "") return;
+        payload[key] = numberFields.has(key) ? Number(value) : value;
+      });
+      return payload;
+    }
+
+    async function send(form) {
+      const button = form.querySelector("button");
+      button.disabled = true;
+      result.classList.remove("error");
+      result.textContent = "Sending...";
+
+      try {
+        const response = await fetch(form.dataset.endpoint, {
+          method: form.dataset.method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formToPayload(form))
+        });
+        const body = await response.json();
+        if (!response.ok) {
+          result.classList.add("error");
+        }
+        result.textContent = `${response.status} ${response.statusText}\n\n${JSON.stringify(body, null, 2)}`;
+      } catch (error) {
+        result.classList.add("error");
+        result.textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    document.querySelectorAll("form").forEach((form) => {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        send(form);
+      });
+    });
+
+    fetch("/docs", { method: "HEAD" })
+      .then((response) => {
+        status.textContent = response.ok ? "API reachable" : "API responded with an error";
+      })
+      .catch(() => {
+        status.textContent = "API not reachable";
+      });
+  </script>
+</body>
+</html>

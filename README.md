@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FoodExpress
 
 FoodExpress is a food delivery API built with FastAPI, SQLAlchemy, and PostgreSQL. It models the core flow of a delivery platform: users, restaurants, dishes, orders, payments, and deliveries.
@@ -200,3 +201,7 @@ This project demonstrates:
 - Add database migrations with Alembic
 - Add a production-ready frontend
 - Add Docker configuration
+=======
+# foodexpress
+Backend Projects
+>>>>>>> cf0d0bf01031b75a87f7c127b125c3b929bfb374
